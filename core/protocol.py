@@ -1,18 +1,21 @@
-
-from os import sep
-from time import time
-from random import randint
+import re
 from json import dumps, load
+from os import sep
+from random import randint
+from time import time
 
-from core.tools import decode, get_local_ip, get_utc_time, logger, resolve_url, write_event
-
+import twisted
 from twisted.python import log
 from twisted.web.resource import Resource
+
+from core.tools import decode, get_local_ip, get_utc_time, logger, resolve_url, write_event
 
 try:
     from urllib.parse import unquote
 except ImportError:
     from urlparse import unquote
+
+re_log4shell = re.compile(r"\${.*}")
 
 
 class Index(Resource):
@@ -44,19 +47,46 @@ class Index(Resource):
     def __init__(self, options):
         self.cfg = options
 
+    def check_log4shell(self, request: twisted.web.http.Request, collapsed_path):
+        matched = {}
+
+        if re_log4shell.search(collapsed_path):
+            matched['url'] = [collapsed_path]
+
+        for (header, value) in request.requestHeaders.getAllRawHeaders():
+            try:
+                h = decode(header)
+                for v in value:
+                    decoded = decode(v)
+                    if re_log4shell.search(decoded):
+                        matched.setdefault(h, []).append(decoded)
+            except UnicodeDecodeError:
+                continue
+
+        if matched:
+            event = {
+                'eventid': 'elasticpot.attack',
+                'message': 'Log4Shell',
+                'url': collapsed_path,
+                'payload': dumps(matched)
+            }
+            self.report_event(request, event)
+        return matched
+
     def render_HEAD(self, request):
         path = unquote(decode(request.uri))
         collapsed_path = resolve_url(path)
 
         logger(request, 'INFO', '{}: {}'.format(decode(request.method), path))
 
-        event = {
-            'eventid': 'elasticpot.recon',
-            'message': 'Head scan',
-            'url': collapsed_path
-        }
+        if not self.check_log4shell(request, collapsed_path):
+            event = {
+                'eventid': 'elasticpot.recon',
+                'message': 'Head scan',
+                'url': collapsed_path
+            }
 
-        self.report_event(request, event)
+            self.report_event(request, event)
 
         return self.send_response(request)
 
@@ -67,13 +97,14 @@ class Index(Resource):
 
         logger(request, 'INFO', '{}: {}'.format(decode(request.method), path))
 
-        event = {
-            'eventid': 'elasticpot.recon',
-            'message': 'Scan',
-            'url': collapsed_path
-        }
+        if not self.check_log4shell(request, collapsed_path):
+            event = {
+                'eventid': 'elasticpot.recon',
+                'message': 'Scan',
+                'url': collapsed_path
+            }
 
-        self.report_event(request, event)
+            self.report_event(request, event)
 
         if len(url_path) == 0:
             # /
@@ -202,11 +233,13 @@ class Index(Resource):
 
     def render_POST(self, request):
         path = unquote(decode(request.uri))
+        collapsed_path = resolve_url(path)
 
         logger(request, 'INFO', '{}: {}'.format(decode(request.method), path))
 
+        self.check_log4shell(request, collapsed_path)
+
         if request.getHeader('Content-Length'):
-            collapsed_path = resolve_url(path)
             content_length = int(request.getHeader('Content-Length'))
             if content_length > 0:
                 post_data = decode(request.content.read())
@@ -262,7 +295,7 @@ class Index(Resource):
 
     def fake_cluster(self, request):
         response = self.get_json('cluster.json')
-        response['cluser_name'] = self.cfg['cluster_name']
+        response['cluster_name'] = self.cfg['cluster_name']
         page = dumps(response, separators=(',', ':'))
         return self.send_response(request, page)
 

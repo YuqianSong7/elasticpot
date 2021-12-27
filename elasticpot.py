@@ -1,20 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from argparse import ArgumentParser
 from os.path import join
 from socket import gethostname
-from argparse import ArgumentParser
 
-from core.config import CONFIG
-from core.protocol import Index
-from core.logfile import set_logger
-from core.tools import mkdir, import_plugins, stop_plugins, get_public_ip
-
+from twisted.internet import reactor
 from twisted.python import log
 from twisted.web.server import Site
-from twisted.internet import reactor
 
-__VERSION__ = '1.0.6'
+from core.config import CONFIG
+from core.logfile import set_logger
+from core.protocol import Index
+from core.tools import mkdir, import_plugins, stop_plugins, get_public_ip
+
+__VERSION__ = '1.0.7'
 __description__ = 'Elasticsearch Honeypot'
 __license__ = 'GPL'
 __uri__ = 'https://gitlab.com/bontchev/elasticpot'
