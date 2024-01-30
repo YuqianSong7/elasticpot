@@ -15,7 +15,7 @@ from core.protocol import Index
 from core.tools import mkdir, import_plugins, stop_plugins, get_public_ip
 
 __VERSION__ = '1.0.7'
-__description__ = 'Elasticsearch Honeypot'
+__description__ = 'Elasticsearch'
 __license__ = 'GPL'
 __uri__ = 'https://gitlab.com/bontchev/elasticpot'
 __author__ = 'Vesselin Bontchev'
