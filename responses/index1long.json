@@ -1,12 +1,12 @@
 {
-    "health": "yellow",
+    "health": "green",
     "status": "open",
-    "index": "1cf0aa9d61f185b59f643939f862c01f89b21360",
+    "index": "users_europe",
     "uuid": "d_g1c8IASCGdhuFwcEh5WA",
     "pri": "1",
     "rep": "1",
-    "docs.count": "30",
+    "docs.count": "1",
     "docs.deleted": "0",
-    "store.size": "13416",
-    "pri.store.size": "13416"
+    "store.size": "12716",
+    "pri.store.size": "12716"
 }
