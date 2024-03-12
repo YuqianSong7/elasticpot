@@ -1,2 +1,2 @@
-green open users_europe d_g1c8IASCGdhuFwcEh5WA 1 1 1 0 13.1kb 13.1kb
-green open users_world _W3iCnnaQKyKnJsF7HD7Eg 1 1 1 0 15.3kb 15.3kb
+green open credit_cards_EU D_w01SeXCEy8bsXUMEYD 1 1 1 0 42.4kb 42.4kb
+green open credit_cards D_uCmhFQrUEvoPnGiybY    1 1 1 0 93.3kb 93.3kkb

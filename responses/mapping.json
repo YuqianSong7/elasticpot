@@ -1,27 +1,52 @@
 {
-    "users_europe": {
+    "credit_cards_EU": {
         "mappings": {
             "properties": {
-                "username": {
+                "credit_card_number": {
                     "type": "keyword"
                 },
-                "password": {
+                "cvc": {
+                    "type": "keyword"
+                },
+                "cardholder_name": {
+                    "type": "keyword"
+                },
+                "expiration_date": {
+                    "type": "date",
+                    "format": "MM/YY"
+                },
+                "billing_address": {
+                    "type": "keyword"
+                },
+                "country": {
                     "type": "keyword"
                 }
             }
         }
     },
-    "users_world": {
+    "credit_cards": {
         "mappings": {
             "properties": {
-                "username": {
+                "credit_card_number": {
                     "type": "keyword"
                 },
-                "password": {
+                "cvc": {
+                    "type": "keyword"
+                },
+                "cardholder_name": {
+                    "type": "keyword"
+                },
+                "expiration_date": {
+                    "type": "date",
+                    "format": "MM/YY"
+                },
+                "billing_address": {
+                    "type": "keyword"
+                },
+                "country": {
                     "type": "keyword"
                 }
             }
         }
     }
 }
-

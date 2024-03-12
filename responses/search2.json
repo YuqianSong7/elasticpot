@@ -11,8 +11,8 @@
                 "_id": "1",
                 "_score": 1.0,
                 "_source": {
-                    "description": "Login_credentials",
-                    "name": "login"
+                    "description": "credit_card_data",
+                    "name": "credit_cards"
                 },
                 "_type": "_doc"
             }

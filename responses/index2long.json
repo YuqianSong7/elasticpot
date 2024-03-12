@@ -1,12 +1,12 @@
 {
     "health": "green",
     "status": "open",
-    "index": "users_world",
-    "uuid": "_W3iCnnaQKyKnJsF7HD7Eg",
+    "index": "credit_cards",
+    "uuid": "D_uCmhFQrUEvoPnGiybY",
     "pri": "1",
     "rep": "1",
     "docs.count": "1",
     "docs.deleted": "0",
-    "store.size": "15716",
-    "pri.store.size": "15716"
+    "store.size": "93756",
+    "pri.store.size": "93756"
 }
